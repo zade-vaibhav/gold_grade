@@ -19,6 +19,7 @@ import EditProfileScreen from "./screens/editProfile/editProfileScreen";
 import AttendanceReportScreen from "./screens/attendanceReport/attendanceReportScreen";
 import ContactUsScreen from "./screens/contactUs/contactUsScreen";
 import Task from "./screens/task/Task";
+import TaskDatailScreen from "./screens/taskDatailScreen/TaskDatailScreen";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -64,6 +65,7 @@ const App = () => {
           <Stack.Screen name="AttendanceReport" component={AttendanceReportScreen} />
           <Stack.Screen name="ContactUs" component={ContactUsScreen} />
           <Stack.Screen name="Task" component={Task} />
+          <Stack.Screen name="TaskDetailScreen" component={TaskDatailScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
