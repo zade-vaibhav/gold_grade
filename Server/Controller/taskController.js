@@ -48,11 +48,11 @@ export const assignTaskToEmployee = async (req, res) => {
 export const getMilestones = async (req, res) => {
     try {
         const { taskId } = req.params;
-        const task = await Task.findById(taskId);
+        const task = await Task.findOne({_id:taskId});
         if (!task) {
             return res.status(404).json({ success: false, message: 'Task not found' });
         }
-        res.json({ success: true, milestones: task.milestones });
+        res.json({ success: true, milestones: task });
     } catch (error) {
         console.error('Error fetching milestones:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
