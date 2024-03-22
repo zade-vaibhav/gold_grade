@@ -18,7 +18,7 @@ app.use("/api/v1/auth",router);
 try {
     app.listen(process.env.PORT, () => {
         console.log("server is running in port : ", process.env.PORT)
-    })
+    }) 
 }
 catch (err) {
     console.log(err);
