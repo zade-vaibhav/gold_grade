@@ -160,14 +160,14 @@ const AttendanceReportScreen = ({ navigation }) => {
               {item.checkOutTime}
             </Text>
           </View>
-
-          <View
+ 
+           <View
             style={{
               width: 1.0,
               backgroundColor: Colors.grayColor,
               height: "70%",
             }}
-          />
+          /> 
 
           <View style={{ alignItems: "center", maxWidth: screenWidth / 3.5 }}>
             <Text numberOfLines={1} style={{ ...Fonts.grayColor15Bold }}>

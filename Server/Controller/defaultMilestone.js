@@ -51,7 +51,10 @@ const milestones = [
         ,
         completed: false
         ,
-        data: true
+        data: {
+            value:"",
+            placeholder:"Enter time.."   
+        }
     }
     ,
     {
@@ -83,7 +86,10 @@ const milestones = [
         ,
         completed: false
         ,
-        data: true
+        data:  {
+            value:"",
+            placeholder:"Enter time.."   
+        }
     }
     ,
     {
@@ -140,9 +146,15 @@ const milestones = [
         completed: false
         ,
         data: {
-            gram: true
+            gram:  {
+                value:"",
+                placeholder:"Total grams.."   
+            }
             ,
-            value: true
+            value:  {
+                value:"",
+                placeholder:"Total amount.."   
+            }
         }
     }
     ,
@@ -151,7 +163,10 @@ const milestones = [
         ,
         completed: false
         ,
-        data: true
+        data: {
+            value:"",
+            placeholder:"Enter amount.."   
+        }
     }
     ,
     {
@@ -167,7 +182,10 @@ const milestones = [
         ,
         completed: false
         ,
-        data: true
+        data:  {
+            value:"",
+            placeholder:"Enter amount.."   
+        }
     }
 
     ,
@@ -192,7 +210,10 @@ const milestones = [
         ,
         completed:false
         ,
-        data: true
+        data:  {
+            value:"",
+            placeholder:"Enter time.."   
+        }
     }
     ,
     {
@@ -200,7 +221,10 @@ const milestones = [
         ,
         completed: false
         ,
-        data: true
+        data: {
+            value:"",
+            placeholder:"Enter time.."   
+        }
     }
 
 ]

@@ -54,7 +54,7 @@ const Task = ({navigation}) => {
         activeOpacity={0.8}
         key={ele.id}
         onPress={() => {
-          navigation.navigate("TaskDetailScreen",{ele})
+          navigation.navigate("TaskDetailScreen")
         }}
         style={styles.taskInfoWrapper}
       >
