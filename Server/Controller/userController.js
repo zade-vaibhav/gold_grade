@@ -14,3 +14,25 @@ export const createUser = async (req, res) => {
 };
 
 
+export const login= async (req,res)=>{
+    try{
+       
+        const {email,password}=req.body;
+        const isUser=await User.findOne({email});
+
+        if(isUser){
+             if(isUser.password==password){
+                res.status(200).json({ success: true, message: 'employee login successfully'});
+             }else{
+                res.status(400).json({ success: true, message: 'Invalid Credentials!!'});
+             }
+        }else{
+            res.status(404).json({ success: false, message: 'no employ found!!' });
+        }
+    }
+    catch{
+ res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}
+
+

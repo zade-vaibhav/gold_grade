@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Image, Button, TextInput, Alert } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Image, Button, TextInput, Alert, TouchableOpacity } from 'react-native'
 import {
   Colors,
   Fonts,
@@ -15,17 +15,18 @@ const TaskDatailScreen = ({ navigation }) => {
   const [grams, setGrams] = useState(null)
   const [value, setValue] = useState(null)
   const [change, setChange] = useState(true)
+  const [isloading, setIsloading] = useState(false)
 
   useEffect(() => {
     async function getTask() {
-      const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/65fe86dba27045947113d123/milestones", {
+      const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/660054ac38b086ca3aebedf0/milestones", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         }
       })
 
-      const res = await reaponce.json()
+      const res = await reaponce.json() 
       sertMileStone(res.milestones.milestones)
 
     }
@@ -34,29 +35,30 @@ const TaskDatailScreen = ({ navigation }) => {
 
   async function updateTasks(ind, data) {
     if (data.data.gram) {
-      if (grams == null || value == null) {
+      if (grams == null || value == null || value == "") {
         Alert.alert('empty fields!!')
+        return
       } else {
         data.completed = true
         data.data.gram.value = grams;
         data.data.value.value = value;
-        console.log(ind, data)
       }
     } else if (data.data) {
-      if (value == null) {
+      if (value == null || value=="") {
         Alert.alert('empty fields!!')
         return;
       } else {
         data.completed = true
-        data.data.value.value = value;
-        console.log(ind, data)
+        data.data.value = value;
+
       }
-      console.log("single")
+
     } else if (data.data == false) {
       data.completed = true
     }
-
-    const responce = await fetch("https://gold-grade.onrender.com/api/v1/auth/65fe86dba27045947113d123/milestones", {
+    
+    console.log(data)
+    const responce = await fetch("https://gold-grade.onrender.com/api/v1/auth/660054ac38b086ca3aebedf0/milestones", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -65,15 +67,17 @@ const TaskDatailScreen = ({ navigation }) => {
     })
 
     const res = await responce.json()
-
+  
     if (res.success == true) {
       Alert.alert('update success full!!')
       setValue(null)
       setGrams(null)
       setChange(!change)
+      
       return;
     } else {
       Alert.alert(res.message)
+      
     }
   }
 
@@ -108,46 +112,61 @@ const TaskDatailScreen = ({ navigation }) => {
       </View>
     )
   }
-
+  
   function taskInfo(ele, ind) {
+    
     return (
-      <View
-        activeOpacity={0.8}
-        key={ele._id}
-        onPress={() => {
+      <View style={styles.taskInfoWrapper}>
+      <View style={styles.taskDataContainer}>
+        <Text style={styles.textContainer}>{ele.name}</Text>
 
-        }}
-        style={styles.taskInfoWrapper}
-      >
-        <View style={styles.taskDataContainer}>
-          <Text style={styles.textContainer}>{ele.name}</Text>
-          {ele.data && ele.data.gram ?
+        {ele.data && ele.data.gram ?
+        ele.data.gram.value == "" && ele.data.value.value == ""?
             <View style={{ flexDirection: "row" }}>
               <TextInput onChangeText={(e) => setGrams(e)} style={{ borderWidth: 1, width: 100, paddingLeft: 5, borderRadius: 4, marginRight: 5 }} placeholder={ele.data.gram.placeholder} />
               <TextInput onChangeText={(e) => setValue(e)} style={{ borderWidth: 1, width: 100, paddingLeft: 5, borderRadius: 4 }} placeholder={ele.data.value.placeholder} />
-            </View>
+            </View>:
+             <View style={styles.valueDisplayContainer}>
+             <View style={{ flexDirection: "row" }}>
+               <Text>Total gram : </Text>
+               <Text style={styles.valueTextStyle}>{ele.data.gram.value} g</Text>
+             </View>
+             <View style={{ flexDirection: "row" }}>
+               <Text>Total value : </Text>
+               <Text style={styles.valueTextStyle}>{ele.data.value.value} rs</Text>
+             </View>
+           </View>
             :
             ele.data ?
+            ele.data.value==""?
               <TextInput onChangeText={(e) => setValue(e)} style={{ borderWidth: 1, width: 100, paddingLeft: 5, borderRadius: 4 }} placeholder={ele.data.placeholder} />
               :
+              <View style={styles.valueDisplayContainer}>
+             <View style={{ flexDirection: "row" }}>
+               <Text>{ele.data.name.split(" ")[0]} : </Text>
+               <Text style={styles.valueTextStyle}>{ele.data.value} {ele.data.name.split(" ")[1]}</Text>
+             </View>
+           </View>
+              :
               <></>}
-        </View>
-        <View style={{ left: 300, justifyContent: "center", alignItems: "center", borderLeftWidth: 1, borderLeftColor: "gray" }}>
-          {
-            ele.completed == true ? <Image
-              source={require("../../assets/images/correct.png")}
-              style={{ width: 70.0, resizeMode: "contain", height: 70.0 }}
-            /> : <Button onPress={() => updateTasks(ind, ele)} title="Submit" />
-          }
-        </View>
+      
       </View>
+      <View style={styles.actionContainer}>
+        {ele.completed ? (
+          <Image
+            source={require("../../assets/images/correct.png")}
+            style={styles.imageStyle}
+          />
+        ) : (
+          <TouchableOpacity onPress={() => updateTasks(ind,ele)} style={styles.buttonStyle}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
     );
   }
 }
-
-
-
-
 
 
 const styles = StyleSheet.create({
@@ -167,37 +186,65 @@ const styles = StyleSheet.create({
   },
   milestoneContainer: {
     flex: 1,
-    marginVertical: 20
+    marginVertical: 10
   },
   taskInfoWrapper: {
-    backgroundColor: Colors.whiteColor,
-    ...commonStyles.boxShadow,
-    padding: Sizes.fixPadding,
-    marginHorizontal: Sizes.fixPadding * 2.0,
-    marginVertical: Sizes.fixPadding,
-    borderRadius: Sizes.fixPadding,
-    height: 100,
     flexDirection: "row",
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 5,
+    marginHorizontal:15,
     alignItems: "center",
     justifyContent: "space-between",
-    position: "relative",
-    overflow: "hidden"
+    elevation: 2, // Android shadow
+    shadowColor: '#000', // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   taskDataContainer: {
-    position: "absolute",
-    height: '100%',
-    width: "75%",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center"
+    flex: 1,
   },
   textContainer: {
-    height: "55%",
-    width: "100%",
-    textAlign: "center",
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    width:150,
+    padding: 8,
+    marginRight: 5,
+    flex: 1,
+  },
+  valueDisplayContainer: {
+    flexDirection: "column",
+  },
+  valueTextStyle: {
+    fontWeight: 'bold',
+  },
+  actionContainer: {
     alignItems: "center",
-    overflow: 'hidden',
+    justifyContent: "center",
+  },
+  buttonStyle: {
+    backgroundColor: '#007AFF',
+    borderRadius: 5,
+    padding: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  imageStyle: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
   }
+
 });
 
 export default TaskDatailScreen

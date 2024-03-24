@@ -52,6 +52,7 @@ const milestones = [
         completed: false
         ,
         data: {
+            name:"Time min",
             value:"",
             placeholder:"Enter time.."   
         }
@@ -87,6 +88,7 @@ const milestones = [
         completed: false
         ,
         data:  {
+            name:"Time am/pm",
             value:"",
             placeholder:"Enter time.."   
         }
@@ -164,6 +166,7 @@ const milestones = [
         completed: false
         ,
         data: {
+            name:"Amount rs",
             value:"",
             placeholder:"Enter amount.."   
         }
@@ -183,6 +186,7 @@ const milestones = [
         completed: false
         ,
         data:  {
+            name:"Amount rs",
             value:"",
             placeholder:"Enter amount.."   
         }
@@ -211,6 +215,7 @@ const milestones = [
         completed:false
         ,
         data:  {
+            name:"Time am/pm",
             value:"",
             placeholder:"Enter time.."   
         }
@@ -222,6 +227,7 @@ const milestones = [
         completed: false
         ,
         data: {
+            name:"Time am/pm",
             value:"",
             placeholder:"Enter time.."   
         }

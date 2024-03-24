@@ -7,12 +7,14 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  TextInput,
+  Alert
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import { Colors, Fonts, Sizes, commonStyles } from "../../constants/styles";
 import MyStatusBar from "../../components/myStatusBar";
 import { useFocusEffect } from "@react-navigation/native";
-import IntlPhoneInput from "react-native-intl-phone-input";
+// import IntlPhoneInput from "react-native-intl-phone-input";
 "ldcndcn"
 
 const LoginScreen = ({ navigation }) => {
@@ -46,10 +48,28 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const [backClickCount, setBackClickCount] = useState(0);
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password,setPassword]=useState("")
+
+
+  async function handellogin(){
+    if(email=="" || password == ""){
+      Alert.alert("empty fields!!")
+    }
+    const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/employee/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body:JSON.stringify({email,password})
+      })
+
+      const res = await reaponce.json()
+      console.log(res) 
+  }
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
+    <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor}}>
       <MyStatusBar />
       <View style={{ flex: 1 }}>
         {header()}
@@ -58,7 +78,7 @@ const LoginScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           {loginInfo()}
-          {mobileNumberInfo()}
+          {loginDetail()}
           {loginButton()}
         </ScrollView>
       </View>
@@ -71,20 +91,23 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.push("Verification");
+          handellogin()
         }}
-        style={{ ...commonStyles.buttonStyle }}
+        style={{ ...commonStyles.buttonStyle,width:300,left:"11%"}}
       >
         <Text style={{ ...Fonts.whiteColor20SemiBold }}>Login</Text>
       </TouchableOpacity>
     );
   }
 
-  function mobileNumberInfo() {
+  function loginDetail() {
     return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
-        <Text style={{ ...Fonts.blackColor18SemiBold }}>Mobile number</Text>
-        <IntlPhoneInput
+      <View style={{ margin: Sizes.fixPadding * 2.0,alignItems:"center"}}>
+        <Text style={{ ...Fonts.blackColor18SemiBold}}>Email</Text>
+        <TextInput onChangeText={setEmail} on style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter email.."/>
+        <Text style={{ ...Fonts.blackColor18SemiBold,marginTop:10}}>Password</Text>
+        <TextInput onChangeText={setPassword} secureTextEntry={true} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
+        {/* <IntlPhoneInput
           onChangeText={({ phoneNumber }) => setMobileNumber(phoneNumber)}
           defaultCountry="IN"
           containerStyle={styles.mobileNumberWrapStyle}
@@ -101,7 +124,8 @@ const LoginScreen = ({ navigation }) => {
           filterInputStyle={{ ...Fonts.blackColor17Medium }}
           modalCountryItemCountryNameStyle={{ ...Fonts.blackColor17Medium }}
           flagStyle={{ width: 0, height: 0 }}
-        />
+        /> */}
+
       </View>
     );
   }
