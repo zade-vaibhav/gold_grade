@@ -12,12 +12,12 @@ export const createUser = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 };
-
+ 
 
 export const login= async (req,res)=>{
     try{
-       
         const {email,password}=req.body;
+        console.log(password)
         const isUser=await User.findOne({email});
 
         if(isUser){

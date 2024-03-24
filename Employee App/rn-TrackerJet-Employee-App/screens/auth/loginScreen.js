@@ -54,12 +54,14 @@ const LoginScreen = ({ navigation }) => {
 
 
   async function handellogin(){
+    email.trim();
     if(email=="" || password == ""){
       Alert.alert("empty fields!!")
       return 
     }
     try{
       setIsloading(true)
+      console.log(JSON.stringify({email,password}))
     const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/employee/login", {
         method: "POST",
         headers: {
@@ -121,7 +123,7 @@ const LoginScreen = ({ navigation }) => {
         <Text style={{ ...Fonts.blackColor18SemiBold}}>Email</Text>
         <TextInput onChangeText={setEmail} on style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter email.."/>
         <Text style={{ ...Fonts.blackColor18SemiBold,marginTop:10}}>Password</Text>
-        <TextInput onChangeText={setPassword} secureTextEntry={true} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
+        <TextInput onChangeText={(e)=>setPassword(e)} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
         {/* <IntlPhoneInput
           onChangeText={({ phoneNumber }) => setMobileNumber(phoneNumber)}
           defaultCountry="IN"
