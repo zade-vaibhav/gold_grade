@@ -50,12 +50,16 @@ const LoginScreen = ({ navigation }) => {
   const [backClickCount, setBackClickCount] = useState(0);
   const [email, setEmail] = useState("");
   const [password,setPassword]=useState("")
+  const [isloading,setIsloading]=useState(false)
 
 
   async function handellogin(){
     if(email=="" || password == ""){
       Alert.alert("empty fields!!")
+      return 
     }
+    try{
+      setIsloading(true)
     const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/employee/login", {
         method: "POST",
         headers: {
@@ -65,7 +69,18 @@ const LoginScreen = ({ navigation }) => {
       })
 
       const res = await reaponce.json()
-      console.log(res) 
+      if(res.success == true){
+        setEmail("")
+        setPassword("")
+        setIsloading(false)
+        navigation.push("BottomTabBar");
+      }else{
+        Alert.alert(res.message)
+      }
+    }catch(err){
+      Alert.alert("server error!!")
+    }
+      
   }
 
   return (
