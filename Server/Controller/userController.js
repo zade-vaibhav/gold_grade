@@ -17,7 +17,6 @@ export const createUser = async (req, res) => {
 export const login= async (req,res)=>{
     try{
         const {email,password}=req.body;
-        console.log(password)
         const isUser=await User.findOne({email});
 
         if(isUser){
