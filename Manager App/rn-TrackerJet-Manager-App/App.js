@@ -18,7 +18,8 @@ import CallScreen from "./screens/call/callScreen";
 import EditProfileScreen from "./screens/editProfile/editProfileScreen";
 import ManageEmployScreen from "./screens/manageEmploy/manageEmployScreen";
 import AddEmployScreen from "./screens/addEmploy/addEmployScreen";
-
+import TrackEmploy from './screens/trackEmploy/trackEmployScreen';
+import TaskScreen from './screens/task/taskScreen'
 ExpoSplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreAllLogs();
@@ -62,6 +63,8 @@ const App = () => {
           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
           <Stack.Screen name="ManageEmploy" component={ManageEmployScreen} />
           <Stack.Screen name="AddEmploy" component={AddEmployScreen} />
+          <Stack.Screen name="TrackEmploy" component={TrackEmploy} />
+          <Stack.Screen name="TaskScreen" component={TaskScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

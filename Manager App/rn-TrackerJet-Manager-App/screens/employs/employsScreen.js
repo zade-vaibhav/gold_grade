@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Colors,
   Fonts,
@@ -86,11 +86,29 @@ const employessList = [
 
 const EmploysScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
+  const [employee, setEmployee] = useState("");
   const [routes] = useState([
     { key: "first", title: "All" },
     { key: "second", title: "Present" },
     { key: "third", title: "Absent" },
   ]);
+
+  useEffect(() => {
+    async function fetchEmployees() {
+        try {
+            const response = await fetch('https://gold-grade.onrender.com/api/v1/auth/user');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json(); // Convert the response body to JSON
+            setEmployee(data); // Assuming the labor data is directly available as an array
+        } catch (error) {
+            console.error('Error fetching employee data:', error);
+        }
+    }
+
+    fetchEmployees();
+}, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -147,7 +165,7 @@ const EmploysScreen = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => {
-                navigation.push("Route");
+                navigation.push("TrackEmploy");
               }}
               style={{
                 ...styles.callAndTrackIconWrapper,

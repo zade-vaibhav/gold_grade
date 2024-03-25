@@ -18,6 +18,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import ProfileScreen from "../screens/profile/profileScreen";
 import EmploysScreen from "../screens/employs/employsScreen";
 import TrackScreen from "../screens/track/trackScreen";
+import TaskScreen from '../screens/task/taskScreen'
 import MyStatusBar from "./myStatusBar";
 
 const Tab = createBottomTabNavigator();
@@ -80,14 +81,14 @@ const BottomTabBarScreen = ({ navigation }) => {
           }}
         />
         <Tab.Screen
-          name="Track"
-          component={TrackScreen}
+          name="Task"
+          component={TaskScreen}
           options={{
             tabBarIcon: ({ focused }) =>
               tabSort({
                 focused,
                 icon: require("../assets/images/icons/track.png"),
-                tab: "Track",
+                tab: "Task",
               }),
           }}
         />
