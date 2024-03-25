@@ -54,7 +54,6 @@ const LoginScreen = ({ navigation }) => {
 
 
   async function handellogin(){
-    email.trim();
     if(email=="" || password == ""){
       Alert.alert("empty fields!!")
       return 
@@ -71,15 +70,17 @@ const LoginScreen = ({ navigation }) => {
       })
 
       const res = await reaponce.json()
-      if(res.success == true){
+      if(res.success === true){
         setEmail("")
         setPassword("")
         setIsloading(false)
         navigation.push("BottomTabBar");
       }else{
+        setIsloading(false)
         Alert.alert(res.message)
       }
     }catch(err){
+      setIsloading(false)
       Alert.alert("server error!!")
     }
       
@@ -105,6 +106,17 @@ const LoginScreen = ({ navigation }) => {
 
   function loginButton() {
     return (
+      
+        isloading==true?<TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {
+          handellogin()
+        }}
+        style={{ ...commonStyles.buttonStyle,width:300,left:"11%"}}
+      >
+        <Text style={{ ...Fonts.whiteColor20SemiBold }}>Loading...</Text>
+      </TouchableOpacity>
+      :
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
@@ -114,16 +126,17 @@ const LoginScreen = ({ navigation }) => {
       >
         <Text style={{ ...Fonts.whiteColor20SemiBold }}>Login</Text>
       </TouchableOpacity>
-    );
+      
+    )
   }
 
   function loginDetail() {
     return (
       <View style={{ margin: Sizes.fixPadding * 2.0,alignItems:"center"}}>
         <Text style={{ ...Fonts.blackColor18SemiBold}}>Email</Text>
-        <TextInput onChangeText={setEmail} on style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter email.."/>
+        <TextInput onChangeText={(e)=>setEmail(e)} on style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter email.."/>
         <Text style={{ ...Fonts.blackColor18SemiBold,marginTop:10}}>Password</Text>
-        <TextInput onChangeText={(e)=>setPassword(e)} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
+        <TextInput onChangeText={(e)=>setPassword(e)} secureTextEntry={true} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
         {/* <IntlPhoneInput
           onChangeText={({ phoneNumber }) => setMobileNumber(phoneNumber)}
           defaultCountry="IN"
@@ -166,19 +179,12 @@ const LoginScreen = ({ navigation }) => {
 
   function header() {
     return (
-      <View style={styles.headerWrapStyle}>
+      <View style={{backgroundColor:"white",alignItems:"center"}}>
         <Image
-          source={require("../../assets/images/app_icon.png")}
-          style={{ width: 50.0, height: 50.0, resizeMode: "contain" }}
+          source={require("../../assets/images/Logo.png")}
+          style={{ width: 250.0, height: 250.0, resizeMode: "contain" }}
         />
-        <Text
-          style={{
-            ...Fonts.whiteColor22Bold,
-            marginTop: Sizes.fixPadding - 5.0,
-          }}
-        >
-          Trackerjet
-        </Text>
+        
       </View>
     );
   }

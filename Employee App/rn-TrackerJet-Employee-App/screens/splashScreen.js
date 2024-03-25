@@ -22,16 +22,11 @@ const SplashScreen = ({ navigation }) => {
 
   function appIconAndName() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center",backgroundColor:"white" }}>
         <Image
-          source={require("../assets/images/app_icon.png")}
-          style={{ width: 60.0, height: 60.0, resizeMode: "contain" }}
+          source={require("../assets/images/Logo.png")}
+          style={{ width: 300.0, height: 300.0, resizeMode: "contain" }}
         />
-        <Text
-          style={{ ...Fonts.whiteColor28SemiBold, marginTop: Sizes.fixPadding }}
-        >
-          Trackerjet
-        </Text>
       </View>
     );
   }
