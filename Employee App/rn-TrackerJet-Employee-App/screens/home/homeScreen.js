@@ -30,7 +30,7 @@ const HomeScreen = ({ navigation }) => {
         {header()}
         {attendanceInfo()}
         {taskInfo()}
-      {/* {checkInOutInfo()} */}
+      {checkInOutInfo()}
       </View>
       {attendanceSheet()}
     </View>
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     ...commonStyles.boxShadow,
     padding: Sizes.fixPadding,
     marginHorizontal: Sizes.fixPadding * 2.0,
-    marginVertical: Sizes.fixPadding * 3.0,
+    marginVertical: Sizes.fixPadding,
     borderRadius: Sizes.fixPadding,
     flexDirection: "row",
     alignItems: "center",
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
     ...commonStyles.boxShadow,
     padding: Sizes.fixPadding,
     marginHorizontal: Sizes.fixPadding * 2.0,
-    // marginVertical: Sizes.fixPadding,
+    marginVertical: Sizes.fixPadding,
     borderRadius: Sizes.fixPadding,
     flexDirection: "row",
     alignItems: "center",

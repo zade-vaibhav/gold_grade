@@ -110,7 +110,6 @@ const LoginScreen = ({ navigation }) => {
         isloading==true?<TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          handellogin()
         }}
         style={{ ...commonStyles.buttonStyle,width:300,left:"11%"}}
       >
