@@ -88,3 +88,25 @@ export const updateMilestoneByEmployee = async (req, res) => {
 };
 
 
+export const getTask = async (req, res) => {
+    const {taskId} = req.params;
+  try {
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).send('Task not found');
+    }
+    res.json(task);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+};
+
+// Function to get all tasks
+export const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({});
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).send(error.toString());
+  }
+};

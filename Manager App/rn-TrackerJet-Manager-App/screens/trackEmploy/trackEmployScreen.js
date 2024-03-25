@@ -67,8 +67,9 @@ const EmploysScreen = ({ navigation }) => {
     <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View style={{ flex: 1 }}>
         {header()}
+         {EmployeeCard()}
         {totalAndAbsentInfo()}
-        {EmployeeCard()}
+        {CurrentInfo()}
         <ScrollView style={styles.screen}>
       {milestonesData.map((milestone) => (
         <Milestone
@@ -86,6 +87,27 @@ const EmploysScreen = ({ navigation }) => {
     </View>
   );
 
+
+   function CurrentInfo() {
+    return (
+      <View style={styles.totalAndAbsentInfoWrapStyle}>
+        <View style={styles.totalAndAbsentInfoBox}>
+          <Text
+            numberOfLines={1}
+            style={{ ...Fonts.grayColor20Medium, lineHeight: 28.0 }}
+          >
+           Current Task
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{ ...Fonts.primaryColor18SemiBold, lineHeight: 25.0 }}
+          >
+            2
+          </Text>
+        </View>
+      </View>
+    );
+   }
 
    function totalAndAbsentInfo() {
     return (
