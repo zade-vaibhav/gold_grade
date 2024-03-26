@@ -37,9 +37,11 @@ const Milestone = ({ milestone, onComplete }) => (
   </View>
 );
 
-const EmploysScreen = ({ navigation }) => {
+const EmploysScreen = ({ route, navigation }) => {
+  const { employeeId, data } = route.params;
+  console.log(employeeId, data.item.name);
   const [index, setIndex] = useState(0);
-  const [employee, setEmployee] = useState("");
+  const [task, setTask] = useState("");
   const [completedMilestones, setCompletedMilestones] = useState([]);
 
   const handleComplete = (id) => {
@@ -49,12 +51,13 @@ const EmploysScreen = ({ navigation }) => {
   useEffect(() => {
     async function fetchEmployees() {
         try {
-            const response = await fetch('https://cariger-user-provider.onrender.com/api/v1/auth/:taskId/milestones');
+           const response = await fetch('https://gold-grade.onrender.com/api/v1/auth/getAllTasks');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json(); // Convert the response body to JSON
-            setEmployee(data); // Assuming the labor data is directly available as an array
+            const Tasks = data.filter(item => item.assignedTo == employeeId);
+            setTask(Tasks); // Assuming the labor data is directly available as an array
         } catch (error) {
             console.error('Error fetching employee data:', error);
         }
@@ -67,7 +70,7 @@ const EmploysScreen = ({ navigation }) => {
     <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View style={{ flex: 1 }}>
         {header()}
-         {EmployeeCard()}
+        {EmployeeCard()}
         {totalAndAbsentInfo()}
         {CurrentInfo()}
         <ScrollView style={styles.screen}>
@@ -117,13 +120,13 @@ const EmploysScreen = ({ navigation }) => {
             numberOfLines={1}
             style={{ ...Fonts.grayColor20Medium, lineHeight: 28.0 }}
           >
-            Task Pending
+            Assigned Tasks
           </Text>
           <Text
             numberOfLines={1}
             style={{ ...Fonts.primaryColor18SemiBold, lineHeight: 25.0 }}
           >
-            6
+           {task && task.filter(item => item.status == "ideal").length}
           </Text>
         </View>
         <View style={styles.totalAndAbsentInfoBox}>
@@ -137,7 +140,7 @@ const EmploysScreen = ({ navigation }) => {
             numberOfLines={1}
             style={{ ...Fonts.primaryColor18SemiBold, lineHeight: 25.0 }}
           >
-            10
+            {task && task.filter(item => item.status == "completed").length}
           </Text>
         </View>
       </View>
@@ -160,14 +163,14 @@ const EmploysScreen = ({ navigation }) => {
               paddingTop: 5.0,
             }}
           >
-            Welcome Employee Name
+           {data.item.name}
           </Text>
-          <Text
+          {/* <Text
             numberOfLines={1}
             style={{ ...Fonts.grayColor15SemiBold, lineHeight: 18.0 }}
           >
             Good morning
-          </Text>
+          </Text> */}
         </View>
       </View>
     );
@@ -177,10 +180,8 @@ const EmploysScreen = ({ navigation }) => {
     <View style={styles.employeeCard}>
       <Image style={styles.employeeImage} />
       <View style={styles.employeeInfo}>
-        <Text style={styles.employeeName}>Current Task: In Progress</Text>
-        <Text style={styles.employeeName}>Name: Mankhush</Text>
-        <Text style={styles.employeeMobile}>Phone: 254558855</Text>
-        <Text style={styles.employeeName}>Address: India</Text>
+        <Text style={styles.employeeMobile}>Mobile: {data.item.phone}</Text>
+        <Text style={styles.employeeName}>Address: {data.item.address}</Text>
       </View>
       <TouchableOpacity style={styles.callIcon}>
         <Feather name="phone-call" size={20} color={Colors.primaryColor} />
@@ -271,7 +272,7 @@ const styles = StyleSheet.create({
     ...Fonts.primaryColor14Medium,
   },
 
-     employeeCard: {
+    employeeCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.whiteColor,

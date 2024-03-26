@@ -54,12 +54,12 @@ const milestoneSchema = new mongoose.Schema({
 const taskSchema = new mongoose.Schema({
   bookedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true
   },
   assignedTo: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true
   },
   status:{

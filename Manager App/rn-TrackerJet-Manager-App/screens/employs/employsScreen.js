@@ -18,72 +18,6 @@ import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { TabView, TabBar } from "react-native-tab-view";
 
-const employessList = [
-  {
-    id: "1",
-    image: require("../../assets/images/users/user2.png"),
-    name: "Jane cooper",
-    mobileNumber: "+91 1234567890",
-  },
-  // {
-  //   id: "2",
-  //   image: require("../../assets/images/users/user3.png"),
-  //   name: "Guy Hawkins",
-  //   mobileNumber: "+91 1234567890",
-  // },
-  // {
-  //   id: "3",
-  //   image: require("../../assets/images/users/user4.png"),
-  //   name: "Dianne Russell",
-  //   mobileNumber: "+91 1234567890",
-  //   isAbsent: true,
-  // },
-  // {
-  //   id: "4",
-  //   image: require("../../assets/images/users/user5.png"),
-  //   name: "Robert Fox",
-  //   mobileNumber: "+91 1234567890",
-  //   isAbsent: true,
-  // },
-  // {
-  //   id: "5",
-  //   image: require("../../assets/images/users/user6.png"),
-  //   name: "Esther Howard",
-  //   mobileNumber: "+91 1234567890",
-  // },
-  // {
-  //   id: "6",
-  //   image: require("../../assets/images/users/user7.png"),
-  //   name: "Jerome Bell",
-  //   mobileNumber: "+91 1234567890",
-  // },
-  // {
-  //   id: "7",
-  //   image: require("../../assets/images/users/user8.png"),
-  //   name: "Arlene McCoy",
-  //   mobileNumber: "+91 1234567890",
-  // },
-  // {
-  //   id: "8",
-  //   image: require("../../assets/images/users/user9.png"),
-  //   name: "Jacob Jones",
-  //   mobileNumber: "+91 1234567890",
-  // },
-  // {
-  //   id: "9",
-  //   image: require("../../assets/images/users/user10.png"),
-  //   name: "Albert Flores",
-  //   mobileNumber: "+91 1234567890",
-  // },
-  // {
-  //   id: "10",
-  //   image: require("../../assets/images/users/user11.png"),
-  //   name: "Albert Flores",
-  //   mobileNumber: "+91 1234567890",
-  //   isAbsent: true,
-  // },
-];
-
 const EmploysScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const [employee, setEmployee] = useState("");
@@ -96,12 +30,13 @@ const EmploysScreen = ({ navigation }) => {
   useEffect(() => {
     async function fetchEmployees() {
         try {
-            const response = await fetch('https://gold-grade.onrender.com/api/v1/auth/user');
+            const response = await fetch('https://gold-grade.onrender.com/api/v1/auth/getAllUsers');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json(); // Convert the response body to JSON
-            setEmployee(data); // Assuming the labor data is directly available as an array
+            const employees = data.filter(item => item.role === 'employee');
+            setEmployee(employees); // Assuming the labor data is directly available as an array
         } catch (error) {
             console.error('Error fetching employee data:', error);
         }
@@ -145,7 +80,7 @@ const EmploysScreen = ({ navigation }) => {
                 lineHeight: 20.0,
               }}
             >
-              {item.mobileNumber}
+              {item.phone}
             </Text>
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -165,7 +100,9 @@ const EmploysScreen = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => {
-                navigation.push("TrackEmploy");
+                // navigation.push("TrackEmploy");
+                 // Pass the employee's id to the TrackEmployee page as a parameter
+                navigation.navigate("TrackEmploy", { employeeId: item._id, data: {item} });
               }}
               style={{
                 ...styles.callAndTrackIconWrapper,
@@ -201,15 +138,15 @@ const EmploysScreen = ({ navigation }) => {
     const renderScene = ({ route }) => {
       switch (route.key) {
         case "first":
-          return <Employs data={employessList} />;
-        case "second":
-          return (
-            <Employs data={employessList.filter((item) => !item.isAbsent)} />
-          );
-        case "third":
-          return (
-            <Employs data={employessList.filter((item) => item.isAbsent)} />
-          );
+          return <Employs data={employee} />;
+        // case "second":
+        //   return (
+        //     <Employs data={employee.filter((item) => !item.isAbsent)} />
+        //   );
+        // case "third":
+        //   return (
+        //     <Employs data={employee.filter((item) => item.isAbsent)} />
+        //   );
       }
     };
 
@@ -266,7 +203,7 @@ const EmploysScreen = ({ navigation }) => {
             numberOfLines={1}
             style={{ ...Fonts.primaryColor18SemiBold, lineHeight: 25.0 }}
           >
-            68 employee
+            {employee.length} employee
           </Text>
         </View>
         <View style={styles.totalAndAbsentInfoBox}>
@@ -280,7 +217,7 @@ const EmploysScreen = ({ navigation }) => {
             numberOfLines={1}
             style={{ ...Fonts.primaryColor18SemiBold, lineHeight: 25.0 }}
           >
-            10 employee
+            {employee.isAbsent} employee
           </Text>
         </View>
       </View>
