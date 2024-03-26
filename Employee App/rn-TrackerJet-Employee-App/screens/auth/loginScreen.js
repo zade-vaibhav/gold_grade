@@ -15,6 +15,7 @@ import { Colors, Fonts, Sizes, commonStyles } from "../../constants/styles";
 import MyStatusBar from "../../components/myStatusBar";
 import { useFocusEffect } from "@react-navigation/native";
 // import IntlPhoneInput from "react-native-intl-phone-input";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 "ldcndcn"
 
 const LoginScreen = ({ navigation }) => {
@@ -74,6 +75,7 @@ const LoginScreen = ({ navigation }) => {
         setEmail("")
         setPassword("")
         setIsloading(false)
+        AsyncStorage.setItem("user",JSON.stringify(res.data))
         navigation.push("BottomTabBar");
       }else{
         setIsloading(false)
@@ -133,9 +135,9 @@ const LoginScreen = ({ navigation }) => {
     return (
       <View style={{ margin: Sizes.fixPadding * 2.0,alignItems:"center"}}>
         <Text style={{ ...Fonts.blackColor18SemiBold}}>Email</Text>
-        <TextInput onChangeText={(e)=>setEmail(e)} on style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter email.."/>
+        <TextInput value={email} onChangeText={(e)=>setEmail(e)} on style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter email.."/>
         <Text style={{ ...Fonts.blackColor18SemiBold,marginTop:10}}>Password</Text>
-        <TextInput onChangeText={(e)=>setPassword(e)} secureTextEntry={true} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
+        <TextInput value={password} onChangeText={(e)=>setPassword(e)} secureTextEntry={true} style={{borderWidth:1,width:300,height:50,paddingHorizontal:10,borderRadius:10}} placeholder="Enter password.."/>
         {/* <IntlPhoneInput
           onChangeText={({ phoneNumber }) => setMobileNumber(phoneNumber)}
           defaultCountry="IN"

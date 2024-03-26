@@ -105,8 +105,33 @@ export const getTask = async (req, res) => {
 export const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find({}).populate("bookedBy");
-    res.json(tasks);
+    res.status(200).json(tasks);
   } catch (error) {
     res.status(500).send(error.toString());
   }
 };
+
+
+export const updateStatus = async (req, res) => {
+   
+        const { id } = req.params;
+        const { status } = req.body;
+    
+        try {
+           
+            const updatedTask = await Task.findByIdAndUpdate(
+                id,
+                { $set: { status } },
+                { new: true }
+            );
+    
+            if (!updatedTask) {
+                return res.status(404).json({ success: false, message: 'task not found' });
+            }
+            return res.status(200).json({ success: true, message: 'task updated',updatedTask });
+        } catch (error) {
+            console.error('Error updating employee status:', error.message);
+            return res.status(500).json({ message: 'Server error' });
+        }
+    
+  };

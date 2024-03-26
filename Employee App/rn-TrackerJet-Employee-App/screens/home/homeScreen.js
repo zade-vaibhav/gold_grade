@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Colors,
   Fonts,
@@ -18,12 +18,22 @@ import {
 } from "../../constants/styles";
 import Feather from "react-native-vector-icons/Feather";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({ navigation }) => {
   const [isCheckIn, setisCheckIn] = useState(true);
   const [selectedAttendanceIndex, setselectedAttendanceIndex] = useState(0);
   const [openAttendanceSheet, setopenAttendanceSheet] = useState(false);
+  const [user,setUser]=useState("")
 
+  useEffect(()=>{
+    async function getdata(){
+      const value =await AsyncStorage.getItem("user")
+      setUser(JSON.parse(value))
+    }
+    getdata()
+  },[])
+   console.log(user)
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View style={{ flex: 1 }}>
@@ -297,7 +307,7 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.navigate("Task")
+          navigation.navigate("Task",user)
         }}
         style={styles.taskInfoWrapper}
       >
@@ -359,7 +369,7 @@ const HomeScreen = ({ navigation }) => {
               paddingTop: 5.0,
             }}
           >
-            Welcome Kriya
+            Welcome {user.name}
           </Text>
           <Text
             numberOfLines={1}

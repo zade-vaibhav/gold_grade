@@ -9,17 +9,18 @@ import {
 import React, { useEffect, useState } from 'react'
 
 
-const TaskDatailScreen = ({ navigation }) => {
-
-  const [mileStone, sertMileStone] = useState(null)
+const TaskDatailScreen = ({ navigation,route }) => {
+  const {taskId}=route.params
+  const [mileStone, setMileStone] = useState(null)
   const [grams, setGrams] = useState(null)
   const [value, setValue] = useState(null)
   const [change, setChange] = useState(true)
   const [isloading, setIsloading] = useState(false)
 
   useEffect(() => {
+    console.log(taskId)
     async function getTask() {
-      const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/660054ac38b086ca3aebedf0/milestones", {
+      const reaponce = await fetch(`https://gold-grade.onrender.com/api/v1/auth/${taskId}/milestones`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -27,7 +28,8 @@ const TaskDatailScreen = ({ navigation }) => {
       })
 
       const res = await reaponce.json() 
-      sertMileStone(res.milestones.milestones)
+      console.log(res.milestones)
+      setMileStone(res.milestones)
 
     }
     getTask()
@@ -57,8 +59,8 @@ const TaskDatailScreen = ({ navigation }) => {
       data.completed = true
     }
     
-    console.log(data)
-    const responce = await fetch("https://gold-grade.onrender.com/api/v1/auth/660054ac38b086ca3aebedf0/milestones", {
+    
+    const responce = await fetch(`https://gold-grade.onrender.com/api/v1/auth/${taskId}/milestones`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -87,7 +89,7 @@ const TaskDatailScreen = ({ navigation }) => {
         {header()}
         {taskDetail()}
         <ScrollView style={styles.milestoneContainer} showsVerticalScrollIndicator={false}>
-          {mileStone && mileStone.map((ele, ind) => {
+          {mileStone && mileStone.milestones.map((ele, ind) => {
             return taskInfo(ele, ind)
           })}
         </ScrollView>
