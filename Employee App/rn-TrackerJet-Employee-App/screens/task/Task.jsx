@@ -48,10 +48,10 @@ const Task = ({ navigation, route }) => {
 
     const res=await response.json()
 
-    if (res.) {
-        console.log(`Status updated successfully for document with _id: ${documentId}`);
+    if (res.sucess==true) {
+        console.log(`Status updated successfully for document with _id: ${id}`);
     } else {
-        console.error("Error updating status:", response.statusText);
+        console.error("Error updating status:", response.message);
     }
 } catch (error) {
     console.error("Server error:", error.message);
@@ -77,9 +77,7 @@ const Task = ({ navigation, route }) => {
   function attendanceInfo(ele) {
     console.log(ele)
     return (
-      <>
-       {
-        ele.status !== "ideal"?
+    
         <TouchableOpacity
         activeOpacity={0.8}
         key={ele.id}
@@ -112,35 +110,7 @@ const Task = ({ navigation, route }) => {
             source={require("../../assets/images/attendance.png")}
             style={{ width: 90.0, resizeMode: "contain", height: 80.0 }}
           />
-      </TouchableOpacity>:<TouchableOpacity
-        activeOpacity={0.8}
-        key={ele.id}
-        style={styles.taskInfoWrapper}
-      >
-        <View
-          style={{
-            flex: 1,
-            marginRight: Sizes.fixPadding,
-            paddingTop: Sizes.fixPadding - 6.0,
-          }}
-        >
-          <Text
-            numberOfLines={1}
-            style={{ ...Fonts.primaryColor22SemiBold, lineHeight: 28.0 }}
-          >
-            Task
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={{ ...Fonts.grayColor15SemiBold, lineHeight: 20.0 }}
-          >
-            {ele.name}
-          </Text>
-        </View>
-           <Button onPress={()=>startTask(ele._id)} title="start" />
       </TouchableOpacity>
-      }
-      </>
      
     );
   }
