@@ -21,7 +21,7 @@ export const login= async (req,res)=>{
 
         if(isUser){
              if(isUser.password==password){
-                res.status(200).json({ success: true, message: 'employee login successfully'});
+                res.status(200).json({ success: true, message: 'employee login successfully',data:isUser});
              }else{
                 res.status(400).json({ success: false, message: 'Invalid Credentials!!'});
              }

@@ -116,7 +116,7 @@ const TaskDatailScreen = ({ navigation }) => {
   function taskInfo(ele, ind) {
     
     return (
-      <View style={styles.taskInfoWrapper}>
+      <View key={ind} style={styles.taskInfoWrapper}>
       <View style={styles.taskDataContainer}>
         <Text style={styles.textContainer}>{ele.name}</Text>
 

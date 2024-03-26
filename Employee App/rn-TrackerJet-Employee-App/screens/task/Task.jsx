@@ -29,7 +29,19 @@ const Task = ({navigation}) => {
     const [filter,setFilter]=useState("ideal")
 
     useEffect(()=>{
-      setTasks(task)
+      async function getTask() {
+        const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/getAllTasks", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+  
+        const res = await reaponce.json() 
+       console.log()
+      }
+      getTask()
+     
     },[])
 
     let showTask=tasks.filter((ele)=>{return ele.status==filter})
