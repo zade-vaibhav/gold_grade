@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }) => {
     }
     getdata()
   },[])
-   console.log(user)
+ 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View style={{ flex: 1 }}>

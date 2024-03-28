@@ -18,7 +18,7 @@ const TaskDatailScreen = ({ navigation,route }) => {
   const [isloading, setIsloading] = useState(false)
 
   useEffect(() => {
-    console.log(taskId)
+  
     async function getTask() {
       const reaponce = await fetch(`https://gold-grade.onrender.com/api/v1/auth/${taskId}/milestones`, {
         method: "GET",
@@ -28,7 +28,7 @@ const TaskDatailScreen = ({ navigation,route }) => {
       })
 
       const res = await reaponce.json() 
-      console.log(res.milestones)
+  
       setMileStone(res.milestones)
 
     }

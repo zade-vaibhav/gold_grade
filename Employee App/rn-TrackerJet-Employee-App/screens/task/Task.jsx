@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Image, Button } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Image, Button,Alert } from 'react-native'
 import {
   Colors,
   Fonts,
@@ -14,6 +14,7 @@ const Task = ({ navigation, route }) => {
   const { _id } = route.params
   const [tasks, setTasks] = useState([])
   const [filter, setFilter] = useState("ideal")
+  const [isChange,setIsChange]=useState(false)
 
   useEffect(() => {
     async function getTask() {
@@ -30,10 +31,9 @@ const Task = ({ navigation, route }) => {
     }
     getTask()
 
-  }, [])
+  }, [isChange])
 
   async function startTask(id){
-   console.log(id)
    
    try {
     const response = await fetch(`https://gold-grade.onrender.com/api/v1/auth//${id}/status`, {
@@ -48,13 +48,14 @@ const Task = ({ navigation, route }) => {
 
     const res=await response.json()
 
-    if (res.sucess==true) {
-        console.log(`Status updated successfully for document with _id: ${id}`);
+    if (res.success==true) {
+      setIsChange(!isChange)
+      navigation.navigate("TaskDetailScreen", { taskId:id })
     } else {
-        console.error("Error updating status:", response.message);
+        Alert.alert("Error updating status:", res.message);
     }
 } catch (error) {
-    console.error("Server error:", error.message);
+    Alert.alert("Server error:", error.message);
 }
   }
 
@@ -75,9 +76,11 @@ const Task = ({ navigation, route }) => {
   )
 
   function attendanceInfo(ele) {
-    console.log(ele)
+  
     return (
-    
+      <>
+       {
+        ele.status !== "ideal"?
         <TouchableOpacity
         activeOpacity={0.8}
         key={ele.id}
@@ -110,7 +113,35 @@ const Task = ({ navigation, route }) => {
             source={require("../../assets/images/attendance.png")}
             style={{ width: 90.0, resizeMode: "contain", height: 80.0 }}
           />
+      </TouchableOpacity>:<TouchableOpacity
+        activeOpacity={0.8}
+        key={ele.id}
+        style={styles.taskInfoWrapper}
+      >
+        <View
+          style={{
+            flex: 1,
+            marginRight: Sizes.fixPadding,
+            paddingTop: Sizes.fixPadding - 6.0,
+          }}
+        >
+          <Text
+            numberOfLines={1}
+            style={{ ...Fonts.primaryColor22SemiBold, lineHeight: 28.0 }}
+          >
+            Task
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{ ...Fonts.grayColor15SemiBold, lineHeight: 20.0 }}
+          >
+            {ele.name}
+          </Text>
+        </View>
+           <Button onPress={()=>startTask(ele._id)} title="start" />
       </TouchableOpacity>
+      }
+      </>
      
     );
   }

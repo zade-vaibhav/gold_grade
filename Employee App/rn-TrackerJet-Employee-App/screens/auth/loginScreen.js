@@ -61,7 +61,7 @@ const LoginScreen = ({ navigation }) => {
     }
     try{
       setIsloading(true)
-      console.log(JSON.stringify({email,password}))
+
     const reaponce = await fetch("https://gold-grade.onrender.com/api/v1/auth/employee/login", {
         method: "POST",
         headers: {
